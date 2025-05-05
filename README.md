@@ -301,4 +301,4 @@ This workflow maximizes efficiency for Kaggle competitions by:
 4. Tracking all experiments systematically
 5. Focusing on thorough validation
 
-By following this approach, you'll be able to maximize your experiments per time spent, which is the key principle recommended by top Kagglers.
+If you have any questions or something you'd like to add in this tutorial, feel free to create an issue.

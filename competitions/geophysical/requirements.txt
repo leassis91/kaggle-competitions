@@ -1,0 +1,4 @@
+# Competition-specific packages go here
+# Example:
+# lightgbm
+# catboost

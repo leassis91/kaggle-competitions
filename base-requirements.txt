@@ -1,0 +1,12 @@
+numpy
+pandas
+scikit-learn
+torch
+torchvision
+hydra-core
+omegaconf
+neptune-client
+matplotlib
+seaborn
+tqdm
+ipykernel

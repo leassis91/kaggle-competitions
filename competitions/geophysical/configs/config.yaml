@@ -1,0 +1,19 @@
+dataset:
+  name: "competition_data"
+  subset_fraction: 0.2  # Use 20% for quick experiments
+
+model:
+  architecture: "efficientnet_b0"  # Start with smaller models
+  pretrained: true
+
+training:
+  batch_size: 32
+  epochs: 5  # Start with fewer epochs for quick iterations
+  mixed_precision: true  # Use mixed precision for faster training
+  optimizer:
+    name: "adam"
+    lr: 0.001
+
+experiment:
+  name: "exp_001"
+  tags: ["baseline", "initial_test"]

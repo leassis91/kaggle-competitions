@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>research.md — ml-mania-2026 (interactive)</title>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #fafaf7;
+    --fg: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #d97706;
+    --accent-bg: #fef3c7;
+    --border: #e5e5e5;
+    --code-bg: #f3f3ef;
+    --hover: #fff8e6;
+    --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    --sidebar-w: 360px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    display: flex;
+    min-height: 100vh;
+  }
+  main {
+    flex: 1;
+    max-width: calc(100% - var(--sidebar-w));
+    padding: 48px 56px 120px;
+    overflow-x: auto;
+  }
+  aside {
+    width: var(--sidebar-w);
+    border-left: 1px solid var(--border);
+    background: #fff;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 24px 20px;
+    box-shadow: var(--shadow);
+  }
+  aside h2 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+  aside .actions {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  aside button {
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--fg);
+  }
+  aside button:hover { background: var(--hover); border-color: var(--accent); }
+  aside button.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  aside button.primary:hover { background: #b45309; }
+  .comment-list-item {
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--accent-bg);
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .comment-list-item:hover { border-color: var(--accent); }
+  .comment-list-item .snippet {
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 4px;
+    font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .comment-list-item .body {
+    color: var(--fg);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .empty {
+    color: var(--muted);
+    font-size: 13px;
+    font-style: italic;
+  }
+  /* Article styling */
+  article { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 32px; line-height: 1.25; margin: 0 0 24px; }
+  h2 { font-size: 24px; margin: 40px 0 14px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  h4 { font-size: 16px; margin: 24px 0 8px; }
+  p { margin: 0 0 14px; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; }
+  li { margin-bottom: 4px; }
+  code {
+    background: var(--code-bg);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 14px 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 0 0 14px;
+  }
+  pre code { background: none; padding: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  table { border-collapse: collapse; margin: 0 0 14px; width: 100%; font-size: 14px; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); }
+  blockquote { border-left: 3px solid var(--accent); margin: 0 0 14px; padding: 4px 14px; color: var(--muted); }
+  strong { font-weight: 600; }
+
+  /* Commentable blocks */
+  .commentable {
+    position: relative;
+    padding-left: 22px;
+    margin-left: -22px;
+    border-radius: 4px;
+    transition: background 0.12s;
+  }
+  .commentable:hover { background: var(--hover); }
+  .commentable.has-comment { background: var(--accent-bg); }
+  .commentable.highlight { animation: flash 1.5s ease-out; }
+  @keyframes flash {
+    0%, 30% { background: #fde68a; }
+    100% { background: var(--accent-bg); }
+  }
+  .comment-btn {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 16px;
+    text-align: center;
+    color: var(--muted);
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.12s;
+  }
+  .commentable:hover .comment-btn,
+  .commentable.has-comment .comment-btn { opacity: 1; }
+  .commentable.has-comment .comment-btn {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .comment-btn:hover { transform: scale(1.15); }
+
+  /* Inline comment thread */
+  .comment-thread {
+    margin: 10px 0 16px;
+    padding: 14px;
+    background: #fff;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .comment-thread textarea {
+    width: 100%;
+    min-height: 70px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+  .comment-thread textarea:focus { outline: none; border-color: var(--accent); }
+  .comment-thread .thread-actions {
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+  }
+  .comment-thread .thread-actions button {
+    padding: 5px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .comment-thread .thread-actions button.save {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .comment-thread .thread-actions button.delete {
+    color: #b91c1c;
+  }
+  .existing-comments {
+    margin-bottom: 10px;
+  }
+  .existing-comment {
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    background: var(--accent-bg);
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+  .existing-comment .meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .existing-comment .del-btn {
+    background: none;
+    border: none;
+    color: #b91c1c;
+    cursor: pointer;
+    font-size: 11px;
+    padding: 0;
+  }
+
+  /* Header bar */
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: rgba(250, 250, 247, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10;
+    padding: 12px 0;
+    margin: -48px -56px 24px;
+    padding-left: 56px;
+    padding-right: 56px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topbar .hint { font-style: italic; }
+  .topbar .count { font-weight: 600; color: var(--accent); }
+
+  /* Responsive */
+  @media (max-width: 1000px) {
+    body { flex-direction: column; }
+    main { max-width: 100%; padding: 32px 24px 80px; }
+    .topbar { margin: -32px -24px 24px; padding-left: 24px; padding-right: 24px; }
+    aside {
+      position: static;
+      width: 100%;
+      height: auto;
+      border-left: none;
+      border-top: 1px solid var(--border);
+    }
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <div class="topbar">
+    <span class="hint">Hover a paragraph and click 💬 to comment. Comments are saved in this browser only.</span>
+    <span><span class="count" id="commentCount">0</span> comment(s)</span>
+  </div>
+  <article id="article">Rendering…</article>
+</main>
+
+<aside>
+  <h2>Your comments</h2>
+  <div class="actions">
+    <button id="exportMdBtn">Export .md</button>
+    <button id="exportJsonBtn">Export .json</button>
+    <button id="importBtn">Import .json</button>
+    <button id="clearBtn">Clear all</button>
+  </div>
+  <input type="file" id="importInput" accept=".json" style="display:none" />
+  <div id="commentList"><p class="empty">No comments yet. Hover any paragraph in the article and click the 💬 icon to add one.</p></div>
+</aside>
+
+<script type="text/markdown" id="md-source">
+# research.md — Deep-Dive Into `ml-mania-2026`
+
+A study of the repository at `competitions/ml-mania-2026/`. The repo is a single-author entry into Kaggle's **March Machine Learning Mania 2026** Stage 2 competition (predict every possible 2026 same-division NCAA matchup, Brier score on the games that actually get played). It is also, deliberately, an experiment in *running an LLM coding agent (Codex) as a semi-autonomous ML researcher*. The README frames the meta-experiment as the main artifact: the modeling solution is secondary; the research loop is the point.
+
+This document captures what the repo is, how it is organized, and how the agent-driven research loop is engineered to behave under strict validation rules. It is the result of reading the top-level docs (`README.md`, `AGENTS.md`, `CHECKLIST.md`, `checklist-prompt.md`, `POLY-ODDS-BLEND.md`, `data-description.md`), the full structure of `scripts/`, key training-pipeline modules, the experiment journal (`JOURNAL.md`, 197 entries / 2566 lines), error-analysis tmp artifacts, and the saved validation artifacts.
+
+---
+
+## 1. What this repository is, at a glance
+
+- **Competition:** Kaggle [March Machine Learning Mania 2026](https://www.kaggle.com/competitions/march-machine-learning-mania-2026/), Stage 2 only. Predict `Pred = P(LowerTeamID wins)` for every same-division matchup row in `data/SampleSubmissionStage2.csv` (132,133 rows: men + women combined). Only games that actually get played count toward Brier score, but the model must produce probabilities for the full matchup universe.
+- **Hard self-imposed rule:** LightGBM only (single or LightGBM-only ensembles). See [AGENTS.md:8](AGENTS.md).
+- **Final Kaggle finish:** **249th**, beating ~92% of participants ([docs/final-pos.png](docs/final-pos.png)). Mean refreshed-snapshot validation Brier `0.159773`; final leaderboard Brier `0.1261605`. The Brier gap is mostly competition noise (tournament upsets), not modeling improvement.
+- **Author:** [Mario Filho](https://www.kaggle.com/mariofilho), Kaggle Grandmaster. The framing in `README.md` is explicit: this is "A Kaggle Grandmaster Tries to Semi-Automate Himself."
+- **Agent involved:** Codex (the file even mentions "GPT 5.4" in the closing notes). All code, journal entries, and most submission-time decisions were produced via prompts to Codex; the human's interventions were almost entirely at the level of prompts, validation rules, and high-level direction.
+
+---
+
+## 2. Repository layout
+
+```
+ml-mania-2026/
+├── AGENTS.md                       — agent operating contract (constraints, validation rules, style)
+├── README.md                       — public-facing writeup + post-mortems for top-3 finishers
+├── CHECKLIST.md                    — feature-family backlog (~100 items, all checked off)
+├── checklist-prompt.md             — the autonomous prompt that drives the checklist sweep
+├── POLY-ODDS-BLEND.md              — design doc for the submission-time Polymarket overlay
+├── JOURNAL.md                      — 197 append-only experiment entries (2566 lines)
+├── data-description.md             — local copy of Kaggle's data dictionary
+├── data/                           — raw Kaggle CSVs (gitignored)
+├── artifacts/                      — validation_summary.json + caches per iteration (gitignored, except 1)
+├── submissions/                    — final CSVs, including the 5 polymarket overlay variants
+├── resources/                      — 6 winning-solution notebooks from previous years (NCAA 2025 1st/3rd/4th, Vilnius, GOTO)
+├── scripts/                        — 141 Python files: training iterations + feature builders + drivers
+├── docs/                           — final leaderboard screenshot + Brier-over-time plot
+└── tmp/                            — error-analysis scratch (markdown plan + parquet + summary)
+```
+
+`/data/` and `/artifacts/` are both in [.gitignore](.gitignore). One exception: `artifacts/first_lightgbm_baseline/` (the original baseline) is present, containing two `.joblib` model files, a submission CSV, and `validation_summary.json`. Everything else under `artifacts/` is regenerable from scripts.
+
+There is **no `pyproject.toml`, no `requirements.txt`, no test suite, no Makefile**. The repo is deliberately flat — `AGENTS.md` says "do not invent extra project structure unless the user asks for it." Scripts are run directly. Dependencies inferred from imports: `polars`, `numpy`, `scipy.sparse`, `scikit-learn`, `lightgbm`, `joblib`, `orjson`, `httpx`. The author uses `uvx ruff check` and `uvx ty check` for linting (see early journal entries).
+
+---
+
+## 3. The competition task (concrete shape)
+
+From `data-description.md` and `AGENTS.md`:
+
+- **Submission row:** `ID = Season_LowerTeamID_HigherTeamID`, `Pred ∈ [0, 1]` = P(lower TeamID wins). Men's TeamIDs are 1000–1999, women's 3000–3999, so same-division is enforced by ID range.
+- **Cutoff:** Local CSVs are complete through **DayNum 132 (Selection Sunday)**. The competition data is refreshed by Kaggle during submission week; the repo treats the latest pre-deadline refresh as the official data snapshot. There is an explicit late-week `DayNum=132` Massey refresh exception.
+- **Scoring:** Brier score = MSE on binary outcomes. Stage 2 rows score 0 until the tournament begins, so the Kaggle leaderboard is useless for model selection.
+- **Excluded from scoring surface:** First Four / play-in games. The repo's local validation excludes them too, to mirror the official metric.
+
+---
+
+## 4. The validation protocol (the most important design decision)
+
+This is the load-bearing piece of the whole repo. The agent's freedom is bounded by it, and the agent will absolutely game any weakness in it. From [AGENTS.md:17–31](AGENTS.md) and [README.md:90–98](README.md):
+
+1. **Walk-forward by season.** Validation folds are the latest 5 completed seasons: **2021, 2022, 2023, 2024, 2025**.
+2. **Train on prior seasons only.** Each fold trains strictly on seasons before its validation year.
+3. **Selection-Sunday-style information cutoff.** Even within a validation season, features can only see what would have been available by that season's Selection Sunday.
+4. **Official scoring surface.** First Four rows are excluded to match Kaggle's actual scoring set.
+5. **Acceptance rule: 4-of-5 + mean.** A candidate is only accepted if it (a) lowers mean Brier across the 5 folds AND (b) improves at least 4 of the 5 individual folds. Improving 3/5 with a better average is **rejected** as fragile.
+6. **No random row splits. No skipping folds.** Speed comes from caching, not from cutting folds.
+
+The README explicitly calls out that this strictness is the human contribution: "Agentic systems are very good at exploiting weaknesses in the objective you give them. If the validation setup is weak, they will eventually find ways to look better without actually becoming more robust."
+
+The 4-of-5 rule is what blocks the agent from accumulating gains that are really one-year flukes. The journal contains many entries where mean Brier improved but the candidate was rejected for not clearing 4-of-5 — and a few where the agent had to be reminded (via the rule) that a beautiful average is not enough.
+
+---
+
+## 5. How the agent loop is engineered
+
+Three documents form the "operating contract" for the agent:
+
+### 5.1 `AGENTS.md` — the constraints layer
+
+Structured as **Task / Constraints / Goal**, with very explicit redundancy on validation. Key prompt patterns the author calls out in `README.md`:
+
+- `"As we get deeper into research, it's expected that we will have many iterations without progress in our metric. This is completely normal. Don't get discouraged..."` — counters the agent's tendency to declare a problem unsolvable after a few failed tries.
+- `"Default experiment runs should be validation-only."` and `"Only create a full Stage 2 submission file and persist trained model artifacts when the user explicitly asks for them."` — prevents the agent from saving full model artifacts and submissions per experiment (cost discipline).
+- `"Use JOURNAL.md at the repository root to log experiments."` — gives the agent a cross-session memory layer that survives compaction.
+- Polars-first, `pathlib`/`orjson`/`httpx`/`joblib`/`seaborn`, no pandas, lazy-frame-preferring style guide.
+
+### 5.2 `checklist-prompt.md` — the autonomous loop
+
+Tiny (18 lines) but carefully tuned. It instructs the agent to walk `CHECKLIST.md` from top to bottom, running each unchecked feature family in turn. The author explains in `README.md` which sentences matter and why:
+
+- `"For every pending feature family (unchecked) test adding at least 10 new features of that family"` and `"It's better to test more features and get no improvement than not testing ideas"` — forces breadth at each item without letting the agent inflate iteration count with trivial variations.
+- `"Complete one item/family at a time. Work autonomously and only stop when you have finished the list."` — gives a hard, observable stop condition. The author found that "stop after N iterations" prompts caused the agent to fake iterations.
+- `"Update the checklist and journal as you complete each item, before moving to the next one"` — write-as-you-go memory, not at-the-end memory.
+- `"Treat partial progress as non-terminal. Never end the turn just to report status."` — added after the author asked the agent why it stopped early; the agent's own vocabulary ("partial progress", "non-terminal") was reused to bypass that failure mode through the embedding space.
+
+### 5.3 `CHECKLIST.md` — the work backlog
+
+100 feature families, every one checked off ([CHECKLIST.md:1-99](CHECKLIST.md)). Roughly: prior-season summaries → momentum/Elo → calibration → pooled Selection Sunday → split-context family (neutral-site, home-road, rest, fatigue, OT, close-game, blowout, volatility, common-opponent…) → conference tournament features → coach/program history → detailed-stat (4-factors per shot type) → opponent-tier records → bracket priors (slot upset rate, path chalkiness, regional structure) → Massey rank-trend.
+
+In the journal, almost all of these end up **rejected** by the 4-of-5 rule. The accepted families are a small minority — and `README.md` is explicit that this is the desired outcome.
+
+### 5.4 What "memory" looks like for the agent
+
+`JOURNAL.md` is the durable cross-session memory. Each entry uses the same template:
+
+```
+### YYYY-MM-DD HH:MM UTC — short experiment name
+- Hypothesis:
+- Data window:
+- Validation folds:
+- Feature set:
+- LightGBM config:
+- Mean Brier:
+- Fold scores:
+- Artifacts:
+- Notes:
+- Next step:
+```
+
+That `Next step:` line is doing real work — it functions as the prompt the *next* session/agent reads on resume. The journal becomes both a postmortem record and a stateful instruction queue. With 197 entries spanning ~10 days of work, this is the substrate that lets the agent recover after Kaggle data refreshes, after context compaction, and after the human steps out.
+
+---
+
+## 6. The final modeling solution
+
+Even though the README declares it secondary, the architecture is interesting because it shows what survives a strict 4-of-5 validation regime. From `README.md` and verified against [scripts/generate_final_stage2_current_snapshot_block_rate_submission.py](scripts/generate_final_stage2_current_snapshot_block_rate_submission.py):
+
+### 6.1 Features
+
+Two parallel feature stacks, both built off a pooled (men+women) Selection-Sunday-cutoff matchup table where each row is `LowerTeamID` vs `HigherTeamID`:
+
+- **`iteration_38` stack** — pooled bracket-aware Selection Sunday model: current-season box-score averages (Score/FGA/OR/DR/Blk/PF + opp FGA/Blk/PF + avg point diff), seed values + delta_seed + fallback default seed for unseeded teams, bracket geometry (`possible_round`, `same_region_flag`, `same_final_four_side_flag`, `any_play_in_flag`, `opening_slot_gap`, regional quadrant), bracket × seed interactions, `mike_quality`, `vilnius_quality`, `capped_margin_quality`.
+- **`iteration_49` stack** — extends iteration_38 with `seed_closure_quality` (a two-hop seeded-closure variant of the latent quality solve).
+- Both stacks are then layered with the final accepted family: **current-season block-rate features** (`block_feature_overall`, `block_feature_late`, `block_feature_neutral`, `block_feature_home_road_gap`, each as low/high/delta).
+
+The `*_quality` features are season-by-season ridge-regularized team strength estimates solved by sparse `lsqr` on a sparse design matrix where each game contributes a `+1/-1` row for winning/losing TeamID with the score margin as target (see [scripts/pooled_quality_variants.py](scripts/pooled_quality_variants.py)). Variants differ in:
+- margin cap (`mike_quality`: none, `capped_margin_quality`: clip ±15, etc.)
+- relevance hops from seeded teams (1 vs 2)
+- whether unseeded teams are dumped into a shared `QUALITY_BUCKET_TEAM_ID=0` aggregate
+- ridge_lambda
+- optional `DayNum`-recency weighting from 0.5 → 1.5
+
+### 6.2 Model families (LightGBM-only, as required)
+
+- **`iteration_38` regressor:** pooled `LGBMRegressor` on the iteration_38 feature stack, predicting margin (lower – higher score), not probability.
+- **`iteration_41` regressor:** same data, Optuna-tuned params (`learning_rate=0.0117`, `num_leaves=104`, `min_child_samples=102`, ridge `reg_lambda=3.64`, `min_split_gain=0.25`, `n_estimators=400` frozen).
+- **`iteration_44` composition:** division-specific — men use iteration_38, women use iteration_41. This was the key acceptance: it captured the women-side gains from tuning without giving back the 2023 men regression.
+- **`iteration_49` branch:** iteration_44 architecture on the iteration_49 (seed-closure) feature stack.
+- **`iteration_53` benchmark blend:** raw-margin blend of iteration_44 (0.75) + iteration_49 (0.25) before calibration.
+
+### 6.3 Calibration — nested out-of-fold logistic on predicted margin
+
+All source models predict margin first. Margin → probability is mapped by a **nested OOF logistic calibrator**: for each outer validation season, the calibrator is fit only on rows from seasons strictly before that season, and within those seasons via inner walk-forward folds. Two calibrated probability views are built:
+
+- `iteration_69`: raw margin = `0.955*benchmark + 0.020*iteration_38 + 0.015*iteration_49 + 0.010*iteration_41`, then bracket-aware calibration.
+- `iteration_71`: raw margin = `0.965*benchmark + 0.020*iteration_38 + 0.015*iteration_49`, then division-aware calibration.
+
+### 6.4 Final ensemble — probability-gap router
+
+Per-row, define `gap = |p_71 − p_69|`, then route based on division and gap regime (concrete weights in [scripts/official_current_block_rate_benchmark.py](scripts/official_current_block_rate_benchmark.py)):
+
+**Men:**
+- `gap ≤ 0.040`: 44% iter71 + 56% iter69
+- `gap ≤ 0.0425`: 34% iter71 + 66% iter69
+- `gap > 0.0425`: 38% iter71 + 62% iter69
+
+**Women:**
+- `gap ≤ 0.054`: 100% iter71
+- `gap ≤ 0.065`: 100% iter69
+- `gap ≤ 0.080`: 100% iter69
+- `gap > 0.080`: 24% iter71 + 76% iter69
+
+That router was the accepted benchmark before the final feature sweep; the last accepted improvement was layering the block-rate family on top of the fixed router. The final archived submission is best described as **block-rate-enhanced + fixed routed blend over nested-calibrated probabilities over division-specific Optuna-tuned margin regressors on bracket-aware pooled Selection-Sunday features**.
+
+### 6.5 Final-submission reproducibility guarantee
+
+[scripts/generate_final_stage2_current_snapshot_block_rate_submission.py](scripts/generate_final_stage2_current_snapshot_block_rate_submission.py) reproduces validation first and aborts if the saved benchmark Brier values don't match to `1e-12`. This is critical when the agent runs the final pipeline after a Kaggle data refresh.
+
+---
+
+## 7. The Polymarket overlay (submission-time, unvalidated)
+
+`POLY-ODDS-BLEND.md` is the design doc for this; it sits outside the validated LightGBM stack because there is no historical Polymarket data to validate against.
+
+Three overlays were applied or considered in the final hours:
+
+1. **Direct-game logit blend (conservative).** For rows that map cleanly to a Polymarket head-to-head moneyline market, blend `logit(p_blend) = 0.90*logit(p_model) + 0.10*logit(p_market)`, then cap the move at ±0.05 from the model and clip the result to `[0.02, 0.98]`. Quality gates require: head-to-head, unambiguous team mapping, oriented to the lower-TeamID side, open & liquid market. Touched ~28 rows.
+2. **Title-futures overlay (conservative).** Pull Polymarket's `2026-ncaa-tournament-winner` board, normalize to fair title odds, run an exact bracket DP on men's seeded-field matchups to infer model-implied title odds, convert team-level logit gaps to small offsets with `alpha=0.10`, cap team-offset ±0.10 and per-game move ±0.03. Applied to ~2278 seeded men rows.
+3. **Direct-game hard replacement (aggressive).** A late-game decision: where Polymarket had a live, uniquely mappable head-to-head with `volume > 10000`, **replace the model probability outright with the market midpoint**. Touched 31 rows, mean absolute move 0.055, max 0.177. Combined with overlay (2) on the remaining seeded men rows, this is the candidate submission that was actually shipped (or at least preserved as the most aggressive variant).
+
+Five submission CSVs are preserved in [submissions/](submissions/):
+- `2026_stage2_current_snapshot_block_rate.csv` — pure model base
+- `..._polymarket_quintile_blend_2026-03-17.csv` — conservative direct blend
+- `..._polymarket_quintile_blend_title_conservative_2026-03-17.csv` — adds title overlay
+- `..._polymarket_direct_replace_volume_gt_10k.csv` — aggressive replace
+- `..._polymarket_direct_replace_volume_gt_10k_plus_title_conservative.csv` — aggressive replace + title overlay
+
+The README is candid: "One or two games with a slightly better prediction can be the difference between 100s of places... I don't believe our model is better than the market-aggregated info."
+
+---
+
+## 8. The journal as a research dataset
+
+`JOURNAL.md` is the single most interesting artifact for understanding how the loop actually behaved. 197 entries, broadly grouped:
+
+| Phase | Iterations | What happened |
+|---|---|---|
+| Prior-season baseline & calibration | iter 1–15 | Established the original baseline; momentum/Elo/efficiency families mostly rejected; probability shrink (`0.70` men, `0.80` women) accepted; men 2-model ensemble accepted; nested OOF isotonic rejected (fixed shrink wins). |
+| Pooled Selection-Sunday pivot | iter 16–22 | Moved from prior-season-only to same-season Selection-Sunday data; first pooled baselines failed; the breakthrough was **iter 21**: pooled margin regression + learned probability map, first to clear 4-of-5. |
+| Notebook ports | iter 23–40 | Translations from the resources/ notebooks (GOTO, Mike Kim, Vilnius). Most failed; iters 24, 26 (bracket features/calibration), 28 (Mike filtered quality), 32 (Vilnius unregularized quality), 38 (capped-margin quality on top of Vilnius) were the accepted ones. |
+| Optuna + composition | iter 41–53 | Optuna search → tuned regressor (iter 41); division-specific composition (iter 44 = men_baseline + women_tuned) accepted; alternative seed-closure-quality branch (iter 49) explored; raw-margin blend of iter 44 + iter 50 = iter 53 accepted. |
+| Calibrated probability blends & routers | iter 54–115 | Search-heavy. Probability-gap-routed blends of iter 69 / iter 71 → iter 105 (joint men/women gap); iter 110–111 fixed the official router config used in the shipped submission. |
+| Pending-feature-family sweep | iter 116 family sweep | Walked the remaining ~50–80 items in `CHECKLIST.md`. Only **current-season block-rate features** survived. Long tail of rejected ideas (coach tenure, conference tournament path difficulty, secondary tournament participation streaks, Massey bucket shares, etc.). |
+| Error analysis + late stabilization | iter 117–120 | Tried to use error analysis to find missing structure (men upset bands, low-gap mid-confidence games). The nested rule search at iter 120 chose `no_rule` on every fold — meaning even with diagnostic guidance, no learned override beat the existing router under walk-forward validation. |
+| Sanity check + Polymarket overlays | 2026-03-16 → 2026-03-19 | Seed-baseline correlation QA (sub sits comfortably inside historical validation range); three Polymarket overlay submissions produced. |
+
+The plot at [docs/journal_validation_brier_timeline.png](docs/journal_validation_brier_timeline.png) is generated from this journal by [scripts/plot_journal_experiment_history.py](scripts/plot_journal_experiment_history.py), which regex-parses entries and tags accepted ones via phrases like `"it is accepted as the new current best"`. The journal entries thus serve as both human-readable log *and* structured data.
+
+### 8.1 Recurring patterns in the journal
+
+- **Most ideas fail.** Of ~197 logged experiments, only ~15–20 were accepted. The 4-of-5 rule is doing the filtering.
+- **Year 2023 is a recurring blocker.** Many candidates regress 2023 (a high-upset year). Several accepted iterations explicitly trade 2024 for 2023 stability or vice versa.
+- **Pooled > separate for the *backbone*; division-specific for the *tuning*.** Pooled training + division-aware calibration + division-specific routing won.
+- **Composition > raw features after iter 40.** Once the feature stack stabilized, gains came from blending source models and routing by probability-gap, not from new features. The pending-feature-family sweep at iter 116 confirms this — 80+ families tested, ~1 accepted.
+- **Calibration discipline is consistent.** All learned calibrators (logistic, isotonic) are fit nested-OOF on prior-season-only data. The Stage 2 final-train and final-predict pass uses the exact same calibrator architecture, just with the target season swapped in.
+
+---
+
+## 9. Specificities and gotchas worth knowing
+
+- **`men_women` flag convention:** men = 1, women = 0 (see [scripts/train_iteration_16_pooled_selection_sunday_baseline.py](scripts/train_iteration_16_pooled_selection_sunday_baseline.py)). Used as both a grouping key and a feature.
+- **Overtime adjustment:** All current-season detailed averages divide raw counts by `(40 + 5*NumOT)/40` to normalize per-40 minutes before averaging.
+- **`LOW_HISTORY_DEFAULT_SEED = 17.0`** is the fallback seed used for any unseeded team in submission rows — submission must cover *every* matchup, not just the tournament field, so unseeded teams need a sensible default.
+- **`MIN_POOLED_SEASON = 2010`** — pooled training restricts to seasons ≥ 2010 because women's detailed box scores start in 2010.
+- **Two parallel feature stacks (iter_38 + iter_49)** are maintained in parallel through the entire pipeline because both feed into the ensemble. The driver in [scripts/official_feature_family_driver.py](scripts/official_feature_family_driver.py) builds both bundles in one pass.
+- **Fold-input caching:** [scripts/official_current_block_rate_benchmark.py](scripts/official_current_block_rate_benchmark.py) caches the inner fold inputs to `joblib`. Re-running the validation hits the cache; rebuilding takes meaningfully longer.
+- **The `1e-12` reproducibility check** in the submission script is a real guard: it caught a data-refresh discrepancy mid-week, leading to the explicit benchmark reset noted in the journal at 2026-03-16 18:58 UTC.
+- **`AGENTS.md` deliberately blocks shortcuts:** "Do not skip folds to iterate faster. Speed should come from caching and efficient feature generation, not from partial validation." The author treats this as a top-line rule.
+- **Resources are inputs, not blueprints:** Six previous-year winning notebooks in `resources/`. Most direct ports failed (`team_quality`, isotonic, recency-weighting); the notebooks were useful for *ideas* like bracket geometry, filtered seeded-team quality, capped margins.
+
+---
+
+## 10. Honest read on what this is
+
+This repo is **two artifacts in one shell**:
+
+1. **A modeling solution** that finished 249th — respectable, beaten by 1st place mostly because of men's-side current-state information (injuries, reranking) and by 3rd place because of heavy market-blended overlays, not because of inferior offline Brier (winner CV `0.1590`, this repo's CV `0.159473–0.159773`).
+2. **A demonstration of a disciplined LLM-driven research loop:** explicit `Task / Constraints / Goal` prompt structure, an append-only journal as cross-session memory, an autonomous checklist sweep with a clean stop condition, a strict statistical acceptance rule that prevents the agent from exploiting validation weaknesses, and an explicit separation between validated model selection and submission-time overlays.
+
+`README.md` is unambiguous about which one matters going forward: the loop, not the model. The most reusable assets in this repo are not the LightGBM scripts — they are `AGENTS.md`, `checklist-prompt.md`, and the journal template. Together they constitute a small but tested template for letting a coding agent run a multi-day ML competition autonomously without (a) drifting into mass-iteration overfitting, (b) accepting fragile gains, (c) losing state across sessions, or (d) confusing submission-time tricks with validated modeling progress.
+
+The post-mortems in `README.md` (vs. 1st/2nd/3rd place) are themselves LLM-written ("by GPT 5.4 XHigh"), which is a clean final detail: the agent that ran the experiment also writes the retrospective on its own work. The conclusion the agent draws — that the biggest missing piece was not model complexity but a cleaner three-layer architecture (validated benchmark + men's current-state reranker + auditable market overlay) — is a coherent and self-aware diagnosis, and worth taking forward as the prompt-engineering lesson rather than just an ML one.
+</script>
+
+<script>
+(() => {
+  const STORAGE_KEY = "ml-mania-2026-research-comments-v1";
+  const article = document.getElementById("article");
+  const commentList = document.getElementById("commentList");
+  const commentCount = document.getElementById("commentCount");
+
+  // --- Render markdown ---
+  const mdSource = document.getElementById("md-source").textContent;
+  marked.setOptions({ breaks: false, gfm: true });
+  article.innerHTML = marked.parse(mdSource);
+
+  // --- Stable hashing for block identity ---
+  // FNV-1a 32-bit. Good enough for paragraph-level identity & survives small edits poorly,
+  // but here the source is fixed, so it's stable.
+  function hash(str) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+    return ("00000000" + (h >>> 0).toString(16)).slice(-8);
+  }
+
+  function blockKey(el) {
+    // Use the tag + normalized text content as the basis for the key.
+    const text = (el.textContent || "").trim().replace(/\s+/g, " ");
+    return el.tagName.toLowerCase() + ":" + hash(text);
+  }
+
+  // --- Storage ---
+  function loadAll() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+    catch { return {}; }
+  }
+  function saveAll(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+  let data = loadAll();
+
+  // --- Make every block-level child commentable ---
+  const SKIP_TAGS = new Set(["HR"]);
+  const blocks = [];
+  Array.from(article.children).forEach((el) => {
+    if (SKIP_TAGS.has(el.tagName)) return;
+    el.classList.add("commentable");
+    const key = blockKey(el);
+    el.dataset.key = key;
+    // collect short snippet for sidebar
+    const snippet = (el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 140);
+    el.dataset.snippet = snippet;
+    blocks.push({ el, key, snippet });
+
+    // Button
+    const btn = document.createElement("button");
+    btn.className = "comment-btn";
+    btn.title = "Add a comment";
+    btn.textContent = "💬";
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleThread(el);
+    });
+    el.appendChild(btn);
+
+    // Click anywhere on block to open (but ignore link clicks, code-block clicks, etc.)
+    el.addEventListener("click", (e) => {
+      if (e.target.closest("a, button, textarea, input")) return;
+      // Only open if no thread currently shown for this block
+      if (!el.nextElementSibling || !el.nextElementSibling.classList?.contains("comment-thread")) {
+        toggleThread(el);
+      }
+    });
+  });
+
+  function refreshHasComment(el) {
+    const key = el.dataset.key;
+    if ((data[key]?.comments || []).length > 0) el.classList.add("has-comment");
+    else el.classList.remove("has-comment");
+  }
+  blocks.forEach(({ el }) => refreshHasComment(el));
+
+  // --- Comment thread UI ---
+  function toggleThread(el) {
+    // Close any other open threads first
+    document.querySelectorAll(".comment-thread").forEach((t) => {
+      if (t.previousElementSibling !== el) t.remove();
+    });
+
+    if (el.nextElementSibling && el.nextElementSibling.classList.contains("comment-thread")) {
+      el.nextElementSibling.remove();
+      return;
+    }
+
+    const thread = document.createElement("div");
+    thread.className = "comment-thread";
+
+    const key = el.dataset.key;
+    const entry = data[key] || { comments: [] };
+
+    const existingWrap = document.createElement("div");
+    existingWrap.className = "existing-comments";
+    if (entry.comments.length === 0) {
+      existingWrap.innerHTML = '<div class="empty" style="font-size:13px">No comments on this block yet.</div>';
+    } else {
+      entry.comments.forEach((c, idx) => {
+        const div = document.createElement("div");
+        div.className = "existing-comment";
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        const time = document.createElement("span");
+        time.textContent = new Date(c.ts).toLocaleString();
+        const del = document.createElement("button");
+        del.className = "del-btn";
+        del.textContent = "delete";
+        del.addEventListener("click", () => {
+          entry.comments.splice(idx, 1);
+          if (entry.comments.length === 0) delete data[key]; else data[key] = entry;
+          saveAll(data);
+          refreshHasComment(el);
+          // re-render thread
+          thread.remove();
+          toggleThread(el);
+          renderSidebar();
+        });
+        meta.appendChild(time);
+        meta.appendChild(del);
+        div.appendChild(meta);
+        const body = document.createElement("div");
+        body.textContent = c.body;
+        div.appendChild(body);
+        existingWrap.appendChild(div);
+      });
+    }
+    thread.appendChild(existingWrap);
+
+    const ta = document.createElement("textarea");
+    ta.placeholder = "Add a question or comment about this block… (⌘/Ctrl+Enter to save)";
+    thread.appendChild(ta);
+
+    const actions = document.createElement("div");
+    actions.className = "thread-actions";
+    const close = document.createElement("button");
+    close.textContent = "Close";
+    close.addEventListener("click", () => thread.remove());
+    const save = document.createElement("button");
+    save.className = "save";
+    save.textContent = "Save comment";
+    function doSave() {
+      const body = ta.value.trim();
+      if (!body) { ta.focus(); return; }
+      const e = data[key] || { snippet: el.dataset.snippet, tag: el.tagName.toLowerCase(), comments: [] };
+      e.snippet = el.dataset.snippet;
+      e.tag = el.tagName.toLowerCase();
+      e.comments.push({ ts: Date.now(), body });
+      data[key] = e;
+      saveAll(data);
+      refreshHasComment(el);
+      thread.remove();
+      toggleThread(el);
+      renderSidebar();
+    }
+    save.addEventListener("click", doSave);
+    ta.addEventListener("keydown", (ev) => {
+      if ((ev.metaKey || ev.ctrlKey) && ev.key === "Enter") { ev.preventDefault(); doSave(); }
+    });
+
+    actions.appendChild(close);
+    actions.appendChild(save);
+    thread.appendChild(actions);
+
+    el.after(thread);
+    ta.focus();
+  }
+
+  // --- Sidebar ---
+  function renderSidebar() {
+    const entries = Object.entries(data);
+    let total = 0;
+    entries.forEach(([, v]) => total += (v.comments || []).length);
+    commentCount.textContent = total;
+
+    if (entries.length === 0) {
+      commentList.innerHTML = '<p class="empty">No comments yet. Hover any paragraph in the article and click the 💬 icon to add one.</p>';
+      return;
+    }
+    // Sort by document order
+    const order = new Map(blocks.map((b, i) => [b.key, i]));
+    entries.sort((a, b) => (order.get(a[0]) ?? 9999) - (order.get(b[0]) ?? 9999));
+
+    commentList.innerHTML = "";
+    entries.forEach(([key, val]) => {
+      (val.comments || []).forEach((c) => {
+        const item = document.createElement("div");
+        item.className = "comment-list-item";
+        item.addEventListener("click", () => {
+          const target = article.querySelector(`[data-key="${key}"]`);
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
+            target.classList.remove("highlight");
+            void target.offsetWidth;
+            target.classList.add("highlight");
+            // Open the thread for that block
+            setTimeout(() => toggleThread(target), 400);
+          }
+        });
+        const snippet = document.createElement("div");
+        snippet.className = "snippet";
+        snippet.textContent = (val.snippet || "").slice(0, 120);
+        const body = document.createElement("div");
+        body.className = "body";
+        body.textContent = c.body;
+        item.appendChild(snippet);
+        item.appendChild(body);
+        commentList.appendChild(item);
+      });
+    });
+  }
+  renderSidebar();
+
+  // --- Export / Import / Clear ---
+  document.getElementById("exportJsonBtn").addEventListener("click", () => {
+    const payload = { exported_at: new Date().toISOString(), data };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    download(blob, "research-comments.json");
+  });
+
+  document.getElementById("exportMdBtn").addEventListener("click", () => {
+    const order = new Map(blocks.map((b, i) => [b.key, i]));
+    const entries = Object.entries(data).sort((a, b) => (order.get(a[0]) ?? 9999) - (order.get(b[0]) ?? 9999));
+    if (entries.length === 0) { alert("No comments to export."); return; }
+    let md = "# Comments on research.md\n\n";
+    md += `Exported ${new Date().toISOString()}\n\n---\n\n`;
+    entries.forEach(([key, val]) => {
+      md += `## On: "${(val.snippet || "").slice(0, 120)}"\n\n`;
+      md += `_block: \`${val.tag || "?"}\` / key \`${key}\`_\n\n`;
+      (val.comments || []).forEach((c) => {
+        md += `- **${new Date(c.ts).toISOString()}** — ${c.body.replace(/\n/g, "\n  ")}\n`;
+      });
+      md += "\n";
+    });
+    const blob = new Blob([md], { type: "text/markdown" });
+    download(blob, "research-comments.md");
+  });
+
+  document.getElementById("importBtn").addEventListener("click", () => {
+    document.getElementById("importInput").click();
+  });
+  document.getElementById("importInput").addEventListener("change", (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        const incoming = parsed.data || parsed;
+        if (!incoming || typeof incoming !== "object") throw new Error("Invalid JSON");
+        // Merge by key, concatenating comment arrays
+        for (const [k, v] of Object.entries(incoming)) {
+          if (data[k]) {
+            data[k].comments = (data[k].comments || []).concat(v.comments || []);
+          } else {
+            data[k] = v;
+          }
+        }
+        saveAll(data);
+        blocks.forEach(({ el }) => refreshHasComment(el));
+        renderSidebar();
+        alert("Comments imported.");
+      } catch (err) {
+        alert("Import failed: " + err.message);
+      }
+    };
+    reader.readAsText(f);
+    e.target.value = "";
+  });
+
+  document.getElementById("clearBtn").addEventListener("click", () => {
+    if (!confirm("Delete ALL comments from this browser? This cannot be undone.")) return;
+    data = {};
+    saveAll(data);
+    blocks.forEach(({ el }) => refreshHasComment(el));
+    document.querySelectorAll(".comment-thread").forEach((t) => t.remove());
+    renderSidebar();
+  });
+
+  function download(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+})();
+</script>
+
+</body>
+</html>

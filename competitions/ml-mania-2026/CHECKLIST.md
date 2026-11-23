@@ -1,0 +1,99 @@
+- [x] Prior-season compact baseline features
+- [x] Prior-season last-10 momentum features
+- [x] Prior-season Elo features
+- [x] Probability shrink calibration
+- [x] Men two-model ensemble
+- [x] Prior-season detailed net-efficiency features
+- [x] Prior-season detailed four-factors features
+- [x] Second-order schedule-strength features
+- [x] Multi-year trajectory features
+- [x] Compact feature season z-scores
+- [x] Prior-season team-quality features
+- [x] Men selected detailed-stat subset
+- [x] Nested OOF isotonic calibration
+- [x] Men Massey dispersion features
+- [x] Pooled Selection Sunday baseline
+- [x] Pooled Selection Sunday baseline with current-season Massey
+- [x] Pooled Selection Sunday baseline with current-season Elo
+- [x] Pooled Selection Sunday baseline with current-season team quality
+
+- [x] Current-season neutral-site-only strength features
+- [x] Current-season home-road split gap features
+- [x] Current-season conference-vs-nonconference split features
+- [x] Current-season preconference-vs-conference-play trajectory features
+- [x] Current-season rest-day gap features
+- [x] Current-season schedule-density and fatigue features
+- [x] Current-season overtime propensity and performance features
+- [x] Current-season close-game execution features
+- [x] Current-season blowout tendency features
+- [x] Current-season margin volatility and consistency features
+- [x] Current-season common-opponent comparison features
+- [x] Current-season opponent-tier record features
+- [x] Current-season rematch familiarity features
+- [x] Venue familiarity from repeated game-city exposure
+- [x] Conference tournament participation and win-count features
+- [x] Conference tournament champion and finalist flags
+- [x] Conference tournament margin and dominance features
+- [x] Conference-relative percentile and z-score features
+- [x] Interconference regular-season strength features
+- [x] Same-conference matchup and conference-pair interaction features
+- [x] Recent NCAA conference-performance prior features
+- [x] Men coach tenure and continuity features
+- [x] Men midseason coaching-change features
+- [x] Men coach tournament-history prior features
+- [x] Men program Division-I tenure and transition-recency features
+- [x] Previous-season secondary-tournament participation features
+- [x] Previous-season secondary-tournament performance features
+- [x] Men Massey rank-trend-over-time features
+- [x] Men Massey late-season rank-volatility features
+- [x] Seed-vs-Massey discrepancy features
+- [x] Current-season pace-estimate features
+- [x] Current-season offensive-rating features
+- [x] Current-season defensive-rating features
+- [x] Current-season effective-field-goal features
+- [x] Current-season true-shooting features
+- [x] Current-season two-point efficiency features
+- [x] Current-season three-point efficiency features
+- [x] Current-season free-throw accuracy features
+- [x] Current-season shot-mix composition features
+- [x] Current-season assist-rate features
+- [x] Current-season assist-to-turnover ratio features
+- [x] Current-season turnover-rate features
+- [x] Current-season steal-rate features
+- [x] Current-season block-rate features
+- [x] Current-season foul-differential features
+- [x] Current-season offensive-rebound-share features
+- [x] Current-season defensive-rebound-share features
+- [x] Current-season possession-regime split features
+- [x] Current-season detailed-stat trend-slope features
+- [x] Current-season style-compatibility matchup features
+- [x] Record-versus-seeded-opponent features
+- [x] Margin-versus-seeded-opponent features
+- [x] Seeded-opponent schedule-share features
+- [x] Record-versus-top-Massey-opponent features
+- [x] Margin-versus-top-Massey-opponent features
+- [x] Top-Massey-opponent schedule-share features
+- [x] Quality-win-count and bad-loss-count features
+- [x] Short-rest and compressed-turnaround features
+- [x] Selection-Sunday conference-finals exposure features
+- [x] Seed-line historical advancement prior features
+- [x] Seed-pair upset-rate prior features
+- [x] Slot-specific historical upset prior features
+- [x] Path-chalkiness prior features
+- [x] Potential same-conference bracket-collision features
+- [x] Program NCAA appearance-streak features
+- [x] Program seed-stability features
+- [x] Program historical seed outperformance features
+- [x] Program underdog upset propensity features
+- [x] Program favorite hold-serve propensity features
+- [x] Program recent tournament depth features
+- [x] Conference auto-bid-versus-at-large proxy features
+- [x] Conference seed-distribution strength features
+- [x] Conference parity and top-heaviness features
+- [x] Conference tournament upset-rate features
+- [x] Conference tournament close-game performance features
+- [x] Conference tournament path-difficulty features
+- [x] Secondary-tournament championship-depth features
+- [x] Secondary-tournament participation-streak features
+- [x] Men Massey elite-system subset consensus features
+- [x] Men Massey top-N bucket-share features

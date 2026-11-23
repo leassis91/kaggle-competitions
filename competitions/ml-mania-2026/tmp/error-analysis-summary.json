@@ -1,0 +1,340 @@
+{
+  "pooled_inner_brier": 0.1634759537292299,
+  "pooled_iteration_69_brier": 0.16467884583658352,
+  "pooled_iteration_71_brier": 0.1648058327907595,
+  "row_count": 629,
+  "outer_seasons": [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "inner_validation_seasons": [
+    2019,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "division_summary": [
+    {
+      "division_label": "men",
+      "row_count": 314,
+      "brier": 0.1927843632657689,
+      "iteration_69_brier": 0.19410452202588524,
+      "iteration_71_brier": 0.1917728077373592
+    },
+    {
+      "division_label": "women",
+      "row_count": 315,
+      "brier": 0.13426058676264818,
+      "iteration_69_brier": 0.13534658449232725,
+      "iteration_71_brier": 0.1379244672884347
+    }
+  ],
+  "router_regime_summary": [
+    {
+      "router_regime": "women_high",
+      "row_count": 14,
+      "brier": 0.28934076622321436,
+      "iteration_69_brier": 0.28934076622321436,
+      "iteration_71_brier": 0.32577371427657514,
+      "mean_probability_gap": 0.07014939596015568
+    },
+    {
+      "router_regime": "women_mid",
+      "row_count": 30,
+      "brier": 0.22122765723434734,
+      "iteration_69_brier": 0.22122765723434734,
+      "iteration_71_brier": 0.2356681051295383,
+      "mean_probability_gap": 0.0583298362246381
+    },
+    {
+      "router_regime": "women_extreme",
+      "row_count": 8,
+      "brier": 0.21862042281201696,
+      "iteration_69_brier": 0.2124828169551571,
+      "iteration_71_brier": 0.24497637981451226,
+      "mean_probability_gap": 0.09408288057529685
+    },
+    {
+      "router_regime": "men_low",
+      "row_count": 189,
+      "brier": 0.2022139757429603,
+      "iteration_69_brier": 0.2037384669545626,
+      "iteration_71_brier": 0.20067500879069455,
+      "mean_probability_gap": 0.02414529156296774
+    },
+    {
+      "router_regime": "men_high",
+      "row_count": 94,
+      "brier": 0.17944100256067733,
+      "iteration_69_brier": 0.1806058988660378,
+      "iteration_71_brier": 0.1791314675336339,
+      "mean_probability_gap": 0.05024888112227379
+    },
+    {
+      "router_regime": "men_mid",
+      "row_count": 31,
+      "brier": 0.1757546583654277,
+      "iteration_69_brier": 0.17629984413897026,
+      "iteration_71_brier": 0.17582990386864278,
+      "mean_probability_gap": 0.04143739953354205
+    },
+    {
+      "router_regime": "women_low",
+      "row_count": 263,
+      "brier": 0.113519091268375,
+      "iteration_69_brier": 0.11500650621781902,
+      "iteration_71_brier": 0.113519091268375,
+      "mean_probability_gap": 0.02735184493059741
+    }
+  ],
+  "top_findings": {
+    "worst_overall": [
+      {
+        "slice_family": "confidence_decile",
+        "slice_label": "confidence_decile=3",
+        "total_rows": 55,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.2697394442740835,
+        "mean_outer_excess_brier": 0.10623983381507411,
+        "router_regret_vs_69": -0.0031253662020144235,
+        "router_regret_vs_71": -0.006189116178206944,
+        "mean_prediction": 0.3464836458830885,
+        "positive_rate": 0.4848998060762767
+      },
+      {
+        "slice_family": "division_x_possible_round",
+        "slice_label": "division_label=men | possible_round=4",
+        "total_rows": 40,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.26878745188975517,
+        "mean_outer_excess_brier": 0.10528784143074583,
+        "router_regret_vs_69": -0.003445821071425992,
+        "router_regret_vs_71": 0.004103926743324937,
+        "mean_prediction": 0.4790321809724339,
+        "positive_rate": 0.475
+      },
+      {
+        "slice_family": "block_late_x_seed_gap",
+        "slice_label": "delta_block_feature_late_bucket=delta_block_feature_late_q3 | abs_seed_gap_bucket=seed_gap_1",
+        "total_rows": 25,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.2591012095045192,
+        "mean_outer_excess_brier": 0.09560159904550984,
+        "router_regret_vs_69": 0.0054175594544652594,
+        "router_regret_vs_71": -0.0028395427346420976,
+        "mean_prediction": 0.4672224100453282,
+        "positive_rate": 0.43555555555555553
+      },
+      {
+        "slice_family": "confidence_decile",
+        "slice_label": "confidence_decile=4",
+        "total_rows": 51,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.25450387205553454,
+        "mean_outer_excess_brier": 0.0910042615965252,
+        "router_regret_vs_69": -0.0009014788017405184,
+        "router_regret_vs_71": -0.004732164373680237,
+        "mean_prediction": 0.45510577050682216,
+        "positive_rate": 0.511013986013986
+      },
+      {
+        "slice_family": "confidence_decile",
+        "slice_label": "confidence_decile=5",
+        "total_rows": 60,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.24157518267111025,
+        "mean_outer_excess_brier": 0.0780755722121009,
+        "router_regret_vs_69": 0.0007451596769505464,
+        "router_regret_vs_71": 0.0008011868098816988,
+        "mean_prediction": 0.5530561016222106,
+        "positive_rate": 0.5583006535947712
+      },
+      {
+        "slice_family": "router_regime_x_gap_bucket",
+        "slice_label": "router_regime=men_low | probability_gap_bucket=gap_le_0p02",
+        "total_rows": 61,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.2370457864433083,
+        "mean_outer_excess_brier": 0.07354617598429894,
+        "router_regret_vs_69": -0.0008511093712258722,
+        "router_regret_vs_71": 0.0010127887991174533,
+        "mean_prediction": 0.5219473495728042,
+        "positive_rate": 0.6153679653679653
+      },
+      {
+        "slice_family": "abs_seed_gap_bucket",
+        "slice_label": "abs_seed_gap_bucket=seed_gap_1",
+        "total_rows": 108,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.23405204485004272,
+        "mean_outer_excess_brier": 0.07055243439103334,
+        "router_regret_vs_69": 0.0023814435247739296,
+        "router_regret_vs_71": -0.0008618535803019967,
+        "mean_prediction": 0.4827703925859438,
+        "positive_rate": 0.564729732828804
+      },
+      {
+        "slice_family": "confidence_decile",
+        "slice_label": "confidence_decile=6",
+        "total_rows": 66,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.22226770024302075,
+        "mean_outer_excess_brier": 0.0587680897840114,
+        "router_regret_vs_69": 0.00043650331494177186,
+        "router_regret_vs_71": -0.0005590302764107435,
+        "mean_prediction": 0.6555862164808183,
+        "positive_rate": 0.6722008547008548
+      },
+      {
+        "slice_family": "router_regime",
+        "slice_label": "router_regime=women_mid",
+        "total_rows": 30,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.21375572633722656,
+        "mean_outer_excess_brier": 0.05025611587821719,
+        "router_regret_vs_69": 0.0,
+        "router_regret_vs_71": -0.010869461149063037,
+        "mean_prediction": 0.48731245527846695,
+        "positive_rate": 0.5311111111111111
+      },
+      {
+        "slice_family": "division_x_router_regime",
+        "slice_label": "division_label=women | router_regime=women_mid",
+        "total_rows": 30,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.21375572633722656,
+        "mean_outer_excess_brier": 0.05025611587821719,
+        "router_regret_vs_69": 0.0,
+        "router_regret_vs_71": -0.010869461149063037,
+        "mean_prediction": 0.48731245527846695,
+        "positive_rate": 0.5311111111111111
+      }
+    ],
+    "worst_block_related": [
+      {
+        "slice_family": "block_late_x_seed_gap",
+        "slice_label": "delta_block_feature_late_bucket=delta_block_feature_late_q3 | abs_seed_gap_bucket=seed_gap_1",
+        "total_rows": 25,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.2591012095045192,
+        "mean_outer_excess_brier": 0.09560159904550984,
+        "router_regret_vs_69": 0.0054175594544652594,
+        "router_regret_vs_71": -0.0028395427346420976,
+        "mean_prediction": 0.4672224100453282,
+        "positive_rate": 0.43555555555555553
+      },
+      {
+        "slice_family": "block_neutral_bucket",
+        "slice_label": "delta_block_feature_neutral_bucket=delta_block_feature_neutral_q2",
+        "total_rows": 126,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.19714844399655235,
+        "mean_outer_excess_brier": 0.033648833537543006,
+        "router_regret_vs_69": -0.0044061794530451115,
+        "router_regret_vs_71": 0.0023502990795704337,
+        "mean_prediction": 0.4549715215634862,
+        "positive_rate": 0.4572390572390573
+      },
+      {
+        "slice_family": "block_neutral_bucket",
+        "slice_label": "delta_block_feature_neutral_bucket=delta_block_feature_neutral_q4",
+        "total_rows": 126,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.18314441148894006,
+        "mean_outer_excess_brier": 0.019644801029930697,
+        "router_regret_vs_69": 0.0007934610494724215,
+        "router_regret_vs_71": -0.004049805929377537,
+        "mean_prediction": 0.48982683701828866,
+        "positive_rate": 0.5208017012227539
+      },
+      {
+        "slice_family": "block_overall_bucket",
+        "slice_label": "delta_block_feature_overall_bucket=delta_block_feature_overall_q1",
+        "total_rows": 126,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.17731731936011266,
+        "mean_outer_excess_brier": 0.013817708901103298,
+        "router_regret_vs_69": -0.0004705497946604631,
+        "router_regret_vs_71": 0.00012855018470489532,
+        "mean_prediction": 0.31188768379425436,
+        "positive_rate": 0.32118690654672666
+      },
+      {
+        "slice_family": "block_late_bucket",
+        "slice_label": "delta_block_feature_late_bucket=delta_block_feature_late_q1",
+        "total_rows": 126,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.17307489053310737,
+        "mean_outer_excess_brier": 0.00957528007409802,
+        "router_regret_vs_69": 0.0006920159747603183,
+        "router_regret_vs_71": 0.0006691858719986843,
+        "mean_prediction": 0.4404656817675462,
+        "positive_rate": 0.4503455456899787
+      },
+      {
+        "slice_family": "block_late_x_seed_gap",
+        "slice_label": "delta_block_feature_late_bucket=delta_block_feature_late_q1 | abs_seed_gap_bucket=seed_gap_3_4",
+        "total_rows": 27,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.17205855633855988,
+        "mean_outer_excess_brier": 0.008558945879550537,
+        "router_regret_vs_69": -0.0032493417270089697,
+        "router_regret_vs_71": -0.00015424792114807073,
+        "mean_prediction": 0.42507295131082995,
+        "positive_rate": 0.3238095238095238
+      },
+      {
+        "slice_family": "block_overall_bucket",
+        "slice_label": "delta_block_feature_overall_bucket=delta_block_feature_overall_q5",
+        "total_rows": 126,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.1669881674131315,
+        "mean_outer_excess_brier": 0.0034885569541221297,
+        "router_regret_vs_69": -0.0018900371235210933,
+        "router_regret_vs_71": -0.0022873558088434276,
+        "mean_prediction": 0.6427344664727824,
+        "positive_rate": 0.673235294117647
+      },
+      {
+        "slice_family": "block_neutral_bucket",
+        "slice_label": "delta_block_feature_neutral_bucket=delta_block_feature_neutral_q3",
+        "total_rows": 125,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.16655194316927957,
+        "mean_outer_excess_brier": 0.003052332710270206,
+        "router_regret_vs_69": -0.0010839696953529598,
+        "router_regret_vs_71": 0.00045733093805894187,
+        "mean_prediction": 0.5094762050360557,
+        "positive_rate": 0.558500533283142
+      },
+      {
+        "slice_family": "block_overall_bucket",
+        "slice_label": "delta_block_feature_overall_bucket=delta_block_feature_overall_q3",
+        "total_rows": 125,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.1663872807309374,
+        "mean_outer_excess_brier": 0.0028876702719280193,
+        "router_regret_vs_69": -0.0031040078341061372,
+        "router_regret_vs_71": -0.003707963106724388,
+        "mean_prediction": 0.4840947009594424,
+        "positive_rate": 0.5059403559403559
+      },
+      {
+        "slice_family": "block_late_bucket",
+        "slice_label": "delta_block_feature_late_bucket=delta_block_feature_late_q2",
+        "total_rows": 126,
+        "outer_season_count": 5,
+        "mean_slice_brier": 0.1654015783920349,
+        "mean_outer_excess_brier": 0.0019019679330255306,
+        "router_regret_vs_69": -0.003154929570062165,
+        "router_regret_vs_71": -0.00005600245913972568,
+        "mean_prediction": 0.4385606824,
+        "positive_rate": 0.42544581990502295
+      }
+    ]
+  }
+}

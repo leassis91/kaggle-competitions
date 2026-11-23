@@ -258,6 +258,7 @@ With the caveat that this was a higher-than-usual randomness competition, Codex 
 
 ## Repository Guide
 
+- [REPRODUCE.md](REPRODUCE.md): setup and run order to regenerate `data/` and `artifacts/` on a new machine.
 - [JOURNAL.md](JOURNAL.md): full experiment log, including every accepted and rejected run.
 - [scripts/generate_final_stage2_current_snapshot_block_rate_submission.py](scripts/generate_final_stage2_current_snapshot_block_rate_submission.py): canonical public entrypoint for rebuilding the archived base submission.
 
